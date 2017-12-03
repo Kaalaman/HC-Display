@@ -1,0 +1,94 @@
+//---Alle benoetigten Biliotheken einbinden--------------------------------------
+#include <Arduino.h>
+#include <TFT_HX8357.h>
+#include <Wire.h>
+//
+//---Angeschlossene Obekte definieren----------------------------------------------
+//
+//
+//
+TFT_HX8357 tft = TFT_HX8357();
+
+//
+//---Globale-Variablen deklarieren -------------------------------------------------
+//
+const byte MY_ADRESS = 21;
+byte x = 0;
+byte y = 0;
+byte poti = 0;
+byte BatU1 = 0;
+
+//
+//--- Setup, wird einmal durchlaufen----------------------------------------------
+//
+void setup()   /****** SETUP: RUNS ONCE ******/
+{
+  Serial.begin(115200);
+
+
+  tft.init();
+  tft.setRotation(0);
+  tft.fillScreen(TFT_BLACK);
+
+  tft.drawRect(5, 5, 230, 230, TFT_WHITE);
+  tft.drawRect(240, 5, 75, 230, TFT_WHITE);
+
+  tft.setCursor(5, 330);
+  tft.setTextSize(2);
+  tft.print("Batterie");
+  tft.drawRect(5, 350, 30, 130, TFT_WHITE);
+  tft.drawRect(37, 350, 30, 130, TFT_WHITE);
+  tft.drawRect(69, 350, 30, 130, TFT_WHITE);
+
+
+  Wire.begin (MY_ADRESS);
+  Wire.onReceive (receiveEvent);
+
+}//Ende Setup
+
+
+//
+//---Schleife, Loop. Wird andauernt durchlaufen. Immer im Kries-------------------------
+//
+void loop()
+{
+
+
+ tft.setTextColor(TFT_WHITE, TFT_BLACK);
+ tft.setCursor(5, 250);
+ tft.setTextSize(2);
+ tft.print("X= ");
+ tft.print(x);
+ tft.print("  ");
+
+ tft.setCursor(100, 250);
+ tft.setTextSize(2);
+ tft.print("Y= ");
+ tft.print(y);
+ tft.print("  ");
+
+ tft.setCursor(195, 250);
+ tft.setTextSize(2);
+ tft.print("S= ");
+ tft.print(poti);
+ tft.print("  ");
+
+ tft.fillRect(241, 6, 73, 228, TFT_BLACK);
+ tft.drawLine(241, 233-poti, 313, 233-poti, TFT_YELLOW);
+ tft.drawLine(241, 233-(0.3333*233), 313, 233-(0.3333*233), TFT_RED);
+
+
+}//Ende Loop
+
+
+void receiveEvent (int howMany)
+{
+  //for (size_t i = 0; i < howMany; i++) {
+    x = Wire.read ();
+    y = Wire.read ();
+    poti = Wire.read ();
+    BatU1 = Wire.read();
+
+
+  //}
+}
