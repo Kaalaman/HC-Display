@@ -1,4 +1,4 @@
-//Version 1.0.0
+//Version 1.0.0a1
 //---Alle benoetigten Biliotheken einbinden--------------------------------------
 #include <Arduino.h>
 #include <TFT_HX8357.h>
