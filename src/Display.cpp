@@ -106,6 +106,11 @@ void loop()
       tft.print ("Config");
       bModusConfig = true;
 
+      //hier dann Code zum senden an Fernbedienung
+      //um Eingaben zu prüfen
+
+      //Wire.write ();
+
       // tu es
       break;
 
