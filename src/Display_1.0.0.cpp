@@ -70,7 +70,7 @@ void loop()
 
       tft.setTextColor(TFT_WHITE, TFT_BLACK);
       tft.setTextSize(8);
-      tft.setCursor(50, 250);
+      tft.setCursor(50, 240);
       tft.print("Start");
       bModusLeer = true;
 
