@@ -14,6 +14,7 @@ const byte MY_ADRESS = 21;
 byte bModi = 0;
 byte bPosX = 0;
 byte bPosY = 0;
+byte bSwit = 0;
 byte bPoti = 0;
 byte bBatU1 = 0;
 byte bBatU2 = 0;
@@ -71,7 +72,7 @@ void loop()
 
       tft.setTextColor(TFT_WHITE, TFT_BLACK);
       tft.setTextSize(8);
-      tft.setCursor(50, 240);
+      tft.setCursor(50, 250);
       tft.print("Start");
       bModusLeer = true;
 
@@ -124,6 +125,7 @@ void receiveEvent (int howMany)
   bModi = Wire.read ();
   bPosX = Wire.read ();
   bPosY = Wire.read ();
+  bSwit  = Wire.read ();
   bPoti = Wire.read ();
   bBatU1 = Wire.read ();
   bBatU2 = Wire.read ();
@@ -143,6 +145,9 @@ void vModusFlugOnce () {
 
   tft.setCursor(95, 250);
   tft.print("Y= ");
+
+  tft.setCursor(120, 280);
+  tft.print (bSwit);
 
 
   tft.setCursor(5, 330);
