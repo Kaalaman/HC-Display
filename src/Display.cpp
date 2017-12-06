@@ -14,14 +14,11 @@ const byte MY_ADRESS = 21;
 byte bModi = 0;
 byte bPosX = 0;
 byte bPosY = 0;
+byte bSwit = 0;
 byte bPoti = 0;
-byte bBatU1 = 0;
-byte bBatU2 = 0;
-byte bBatU3 = 0;
+byte bBatU = 0;
 
-float fBatU1 = 0;
-float fBatU2 = 0;
-float fBatU3 = 0;
+float fBatU = 0;
 
 unsigned long timerBatterie;
 
@@ -129,10 +126,9 @@ void receiveEvent (int howMany)
   bModi = Wire.read ();
   bPosX = Wire.read ();
   bPosY = Wire.read ();
+  bSwit = Wire.read ();
   bPoti = Wire.read ();
-  bBatU1 = Wire.read ();
-  bBatU2 = Wire.read ();
-  bBatU3 = Wire.read ();
+  bBatU = Wire.read ();
 
 }
 void vModusFlugOnce () {
@@ -195,20 +191,12 @@ void vModusFlugLoop () {
   if (millis() - timerBatterie > 500) {
 
     tft.setTextSize(1);
-    fBatU1 = (bBatU1 / 254.00) + 3.3; //Berechnung 1 Spannung von 3,3->4,3
-    fBatU2 = (bBatU2 / 255.00) + 3.3; //Berechnung 2 Spannung von 3,3->4,3
-    fBatU3 = (bBatU3 / 255.00) + 3.3; //Berechnung 3 Spannung von 3,3->4,3
+    fBatU = (bBatU / 254.00) + 3.3; //Berechnung 1 Spannung von 3,3->4,3
 
     tft.setCursor(8, 350); //Ausgabe aktuelle Spannung Zelle 01
-    tft.print(fBatU1);
+    tft.print(fBatU);
     tft.fillRect(6, 361, 28, 103, TFT_BLACK);
-    tft.drawLine(6, 474-(bBatU1/2), 33, 474-(bBatU1/2), TFT_YELLOW);
-
-    tft.setCursor(41, 350); //Ausgabe aktuelle Spannung Zelle 02
-    tft.print(fBatU2);
-
-    tft.setCursor(74, 350); //Ausgabe aktuelle Spannung Zelle 03
-    tft.print(fBatU3);
+    tft.drawLine(6, 474-(bBatU/2), 33, 474-(bBatU/2), TFT_YELLOW);
 
     timerBatterie = millis();
   }// ende if, nur alle 0,5s einmal Baterie
