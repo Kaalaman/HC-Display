@@ -10,7 +10,9 @@ TFT_HX8357 tft = TFT_HX8357();
 //
 //---Globale-Variablen deklarieren -------------------------------------------------
 //
-const byte MY_ADRESS = 21;
+const byte SLAVE_ADRESS = 21;
+const byte MASTER_ADRESS = 42;
+
 byte bModi = 0;
 byte bPosX = 0;
 byte bPosY = 0;
@@ -42,7 +44,7 @@ void setup()   /****** SETUP: RUNS ONCE ******/
   tft.init();
   tft.setRotation(0);
 
-  Wire.begin (MY_ADRESS);
+  Wire.begin (SLAVE_ADRESS);
   Wire.onReceive (receiveEvent);
 
 }//Ende Setup
@@ -105,8 +107,10 @@ void loop()
 
       //hier dann Code zum senden an Fernbedienung
       //um Eingaben zu prüfen
-
-      //Wire.write ();
+      //
+      // Wire.beginTransmission (MASTER_ADRESS);
+      // Wire.write (random(255));
+      // Wire.endTransmission();
 
       // tu es
       break;
