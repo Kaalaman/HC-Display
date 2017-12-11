@@ -24,9 +24,12 @@ float fBatU = 0;
 
 unsigned long timerBatterie;
 
+int iButtonPosition = 0;
+
 bool bModusFlugSetup = false;
 bool bModusLeer = false ;
 bool bModusConfig = false;
+bool bButton = false;
 
 // Funtionen deklarieren
 void receiveEvent (int);
@@ -90,6 +93,7 @@ void loop()
 
     case 2 :
 
+      bButton = false;
       bModusLeer = false;
       bModusFlugSetup = false;
 
@@ -103,16 +107,39 @@ void loop()
       tft.print("Modus");
       tft.setCursor (30, 250);
       tft.print ("Config");
+
+      tft.setTextSize(2);
+      tft.setCursor(140, 350);
+      tft.print(bPosY);
+      tft.print("  ");
+
+      while (bButton == false) {
+
+        if (bPosY < 125) {
+          iButtonPosition = -1;
+          tft.setCursor(130, 380);
+          tft.print("unten");
+          tft.print("   ");
+        }
+
+        else if (bPosY > 130) {
+          iButtonPosition = 1;
+          tft.setCursor(130, 380);
+          tft.print("oben");
+          tft.print("   ");
+        }
+
+        else {
+          // tft.setCursor(130, 380);
+          // tft.print("mitte");
+          // tft.print("   ");
+        }
+
+        if (bSwit == 1 &&iButtonPosition != 0 ) {
+          bButton = true;
+        }
+      }// ende Ehile Button=false
       bModusConfig = true;
-
-      //hier dann Code zum senden an Fernbedienung
-      //um Eingaben zu prüfen
-      //
-      // Wire.beginTransmission (MASTER_ADRESS);
-      // Wire.write (random(255));
-      // Wire.endTransmission();
-
-      // tu es
       break;
 
     case 3 :
@@ -168,6 +195,9 @@ void vModusFlugOnce () {
   tft.setTextSize (2);
 
 }
+
+
+
 void vModusFlugLoop () {
 
   unsigned long time = micros();
@@ -195,7 +225,7 @@ void vModusFlugLoop () {
   if (millis() - timerBatterie > 500) {
 
     tft.setTextSize(1);
-    fBatU = (bBatU / 254.00) + 3.3; //Berechnung 1 Spannung von 3,3->4,3
+    fBatU = (bBatU / 254.00) + 3.3; //Berechnung 1 Spannung von 10,4 bis 13 V
 
     tft.setCursor(8, 350); //Ausgabe aktuelle Spannung Zelle 01
     tft.print(fBatU);
